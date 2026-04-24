@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حررت نفسي — 21 يوم لتحرري من التعلق</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07050a;
+    --bg2: #0d0a12;
+    --card: #13101a;
+    --card2: #1a1524;
+    --border: #251d30;
+    --rose: #e8726a;
+    --rose2: #f4a09a;
+    --rose3: #ffd4d0;
+    --gold: #c9a06e;
+    --gold2: #e8c48a;
+    --gold3: #fff0cc;
+    --lav: #9b7fc4;
+    --lav2: #c4aae0;
+    --green: #4ade80;
+    --text: #f5f0fa;
+    --muted: #8a7a9a;
+    --muted2: #5a4a6a;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ===== CURSOR ===== */
+  .cursor { width:10px; height:10px; background:var(--rose); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9999; mix-blend-mode:screen; transition:transform 0.15s; }
+  .cursor-ring { width:32px; height:32px; border:1.5px solid rgba(232,114,106,0.4); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9998; transition:all 0.12s ease; }
+
+  /* ===== PARTICLES ===== */
+  #particles { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .particle { position:absolute; border-radius:50%; animation:floatUp linear infinite; opacity:0; }
+  @keyframes floatUp {
+    0% { transform:translateY(100vh) scale(0); opacity:0; }
+    10% { opacity:0.8; }
+    90% { opacity:0.3; }
+    100% { transform:translateY(-100px) scale(1); opacity:0; }
+  }
+
+  /* ===== BG ===== */
+  .bg-glow { position:fixed; inset:0; pointer-events:none; z-index:0;
+    background: radial-gradient(ellipse 60% 50% at 15% 15%, rgba(232,114,106,0.07) 0%, transparent 100%),
+                radial-gradient(ellipse 40% 40% at 85% 75%, rgba(155,127,196,0.05) 0%, transparent 100%);
+    animation: bgPulse 8s ease-in-out infinite alternate;
+  }
+  @keyframes bgPulse { 0%{opacity:0.7} 100%{opacity:1.3} }
+
+  /* ===== CONTAINER ===== */
+  .wrap { max-width:760px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+
+  /* ===== SECTION HELPERS ===== */
+  .sec-label { font-size:11px; letter-spacing:0.25em; text-transform:uppercase; text-align:center; margin-bottom:14px; }
+  .sec-title { font-size:clamp(26px,5vw,40px); font-weight:900; text-align:center; margin-bottom:12px; line-height:1.2; }
+  .sec-sub { text-align:center; color:var(--muted); font-size:16px; margin-bottom:52px; line-height:1.8; max-width:580px; margin-left:auto; margin-right:auto; }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:80px 24px 80px; position:relative; z-index:1;
+  }
+
+  .hero-eyebrow {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(232,114,106,0.08); border:1px solid rgba(232,114,106,0.2);
+    border-radius:100px; padding:8px 22px; font-size:13px; color:var(--rose2);
+    margin-bottom:36px; letter-spacing:0.05em;
+    animation: dropIn 1s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  @keyframes dropIn { from{opacity:0;transform:translateY(-30px) scale(0.8)} to{opacity:1;transform:none} }
+
+  .hero-title {
+    font-size:clamp(56px,11vw,110px); font-weight:900; line-height:1.15;
+    background:linear-gradient(135deg,#fff 0%,var(--rose2) 45%,var(--gold2) 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    margin-bottom:20px; padding:8px 16px 12px;
+    animation: riseUp 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;
+  }
+
+  @keyframes riseUp { from{opacity:0;transform:translateY(60px) scale(0.9)} to{opacity:1;transform:none} }
+
+  .hero-line {
+    width:0; height:2px; margin:0 auto 28px;
+    background:linear-gradient(90deg,transparent,var(--rose),var(--gold),transparent);
+    animation: growLine 1.5s ease 0.9s both;
+  }
+  @keyframes growLine { from{width:0;opacity:0} to{width:180px;opacity:1} }
+
+  .hero-sub {
+    font-size:clamp(16px,2.5vw,20px); color:var(--muted); max-width:520px;
+    line-height:1.85; margin-bottom:44px;
+    animation: fadeUp 1s ease 1.1s both;
+  }
+  .hero-sub span { color:var(--rose2); font-weight:700; }
+
+  /* Hero CTA */
+  .hero-cta-wrap { animation: fadeUp 1s ease 1.3s both; display:flex; flex-direction:column; align-items:center; gap:14px; }
+
+  .btn-primary {
+    display:inline-flex; align-items:center; gap:10px;
+    background:linear-gradient(135deg,var(--rose),#b84840);
+    color:#fff; border:none; border-radius:14px; padding:18px 40px;
+    font-size:19px; font-weight:800; font-family:'Tajawal',sans-serif;
+    cursor:none; text-decoration:none; position:relative; overflow:hidden;
+    transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+  }
+  .btn-primary::after { content:''; position:absolute; top:-50%; left:-60%; width:40%; height:200%; background:rgba(255,255,255,0.18); transform:skewX(-20deg); animation:shine 4s ease infinite; }
+  @keyframes shine { 0%,70%{left:-60%} 100%{left:160%} }
+  .btn-primary:hover { transform:translateY(-4px) scale(1.03); box-shadow:0 16px 50px rgba(232,114,106,0.45); }
+
+  .hero-trust { font-size:13px; color:var(--muted2); display:flex; align-items:center; gap:6px; }
+
+  .scroll-hint {
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    color:var(--muted2); font-size:12px; letter-spacing:0.1em;
+    animation:fadeUp 1s ease 2s both;
+  }
+  .scroll-line { width:1px; height:36px; background:linear-gradient(to bottom,var(--rose),transparent); animation:scrollPulse 2s ease-in-out infinite; }
+  @keyframes scrollPulse { 0%,100%{opacity:1;transform:scaleY(1)} 50%{opacity:0.5;transform:scaleY(0.5)} }
+
+  /* ===== STATS BAR ===== */
+  .stats-bar { background:var(--card); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:52px 0; position:relative; z-index:1; overflow:visible; }
+  .stats-grid { display:flex; justify-content:center; gap:0; flex-wrap:wrap; }
+  .stat-item { text-align:center; padding:0 48px; border-left:1px solid var(--border); }
+  .stat-item:last-child { border-left:none; }
+  .stat-num { font-size:52px; font-weight:900; background:linear-gradient(135deg,var(--rose2),var(--gold2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1.2; margin-bottom:8px; padding:4px 0; display:block; }
+  .stat-label { font-size:13px; color:var(--muted); }
+
+  /* ===== PAIN ===== */
+  .pain-section { padding:100px 0; background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%); position:relative; z-index:1; }
+
+  .pain-headline { text-align:center; font-size:clamp(26px,5vw,42px); font-weight:900; color:var(--rose2); margin-bottom:52px; }
+
+  .pain-cards { display:grid; gap:14px; }
+  .pain-card {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:22px 26px; display:flex; gap:18px; align-items:flex-start;
+    position:relative; overflow:hidden;
+    opacity:0; transform:translateX(40px);
+    transition:all 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .pain-card.vis { opacity:1; transform:none; }
+  .pain-card::before { content:''; position:absolute; right:0;top:0;bottom:0;width:3px; background:linear-gradient(to bottom,var(--rose),transparent); transform:scaleY(0); transform-origin:top; transition:transform 0.4s; }
+  .pain-card:hover::before { transform:scaleY(1); }
+  .pain-card:hover { background:var(--card2); border-color:rgba(232,114,106,0.2); transform:translateX(-6px) !important; }
+  .pain-icon { font-size:26px; flex-shrink:0; }
+  .pain-text strong { display:block; font-size:15px; font-weight:800; color:var(--text); margin-bottom:4px; }
+  .pain-text p { font-size:14px; color:var(--muted); line-height:1.7; }
+
+  /* ===== TRUTH ===== */
+  .truth-section { padding:100px 0; background:var(--bg2); position:relative; z-index:1; }
+  .truth-box {
+    background:var(--card); border:1px solid rgba(232,114,106,0.15); border-radius:24px;
+    padding:52px 44px; text-align:center; position:relative; overflow:hidden;
+    opacity:0; transform:scale(0.95); transition:all 0.8s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .truth-box.vis { opacity:1; transform:none; }
+  .truth-box::before { content:''; position:absolute; top:-100px;left:-100px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(232,114,106,0.07) 0%,transparent 70%);animation:glowDrift 6s ease-in-out infinite; }
+  .truth-box::after { content:''; position:absolute; bottom:-100px;right:-100px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(155,127,196,0.05) 0%,transparent 70%);animation:glowDrift 8s ease-in-out infinite reverse; }
+  @keyframes glowDrift { 0%,100%{transform:translate(0,0)} 50%{transform:translate(25px,25px)} }
+
+  .truth-tag { font-size:11px; letter-spacing:0.25em; color:var(--rose); text-transform:uppercase; margin-bottom:22px; position:relative;z-index:1; }
+  .truth-title { font-size:clamp(24px,5vw,38px); font-weight:900; margin-bottom:36px; line-height:1.3; position:relative;z-index:1; }
+  .truth-title span { color:var(--rose2); }
+
+  .truth-points { display:grid; gap:12px; text-align:right; position:relative;z-index:1; }
+  .truth-pt {
+    display:flex; align-items:center; gap:14px; font-size:15px; color:var(--text); line-height:1.6;
+    padding:14px 18px; background:rgba(232,114,106,0.04); border-radius:10px; border:1px solid rgba(232,114,106,0.07);
+    opacity:0; transform:translateX(24px); transition:all 0.5s ease;
+  }
+  .truth-pt.vis { opacity:1; transform:none; }
+  .truth-pt:hover { background:rgba(232,114,106,0.09); transform:translateX(-4px) !important; }
+  .chk { width:28px;height:28px;border-radius:50%;background:rgba(232,114,106,0.12);border:1px solid rgba(232,114,106,0.3);display:flex;align-items:center;justify-content:center;color:var(--rose2);font-size:13px;flex-shrink:0;transition:all 0.3s; }
+  .truth-pt:hover .chk { background:rgba(232,114,106,0.22);transform:scale(1.15) rotate(10deg); }
+
+  /* ===== DREAM OUTCOME (HORMOZI) ===== */
+  .dream-section { padding:100px 0; background:var(--bg); position:relative; z-index:1; }
+
+  .dream-box {
+    background:linear-gradient(135deg,rgba(232,114,106,0.06),rgba(201,160,110,0.06));
+    border:1px solid rgba(232,114,106,0.18); border-radius:24px; padding:52px 44px;
+    opacity:0; transform:translateY(30px); transition:all 0.8s ease;
+  }
+  .dream-box.vis { opacity:1; transform:none; }
+
+  .dream-intro { text-align:center; font-size:clamp(22px,4vw,34px); font-weight:900; margin-bottom:12px; }
+  .dream-intro span { color:var(--gold2); }
+  .dream-sub { text-align:center; color:var(--muted); font-size:15px; margin-bottom:40px; line-height:1.7; }
+
+  .dream-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media(max-width:560px){ .dream-grid{grid-template-columns:1fr} }
+
+  .dream-item {
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:18px 20px; display:flex; gap:14px; align-items:flex-start;
+    opacity:0; transform:translateY(20px); transition:all 0.5s ease;
+  }
+  .dream-item.vis { opacity:1; transform:none; }
+  .dream-item:hover { border-color:rgba(201,160,110,0.3); background:var(--card2); }
+
+  .dream-check { width:26px;height:26px;border-radius:50%;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:13px;flex-shrink:0;margin-top:2px; }
+  .dream-text { font-size:14px; color:var(--muted); line-height:1.65; }
+  .dream-text strong { display:block; color:var(--text); font-size:14px; font-weight:700; margin-bottom:3px; }
+
+  /* ===== WEEKS ===== */
+  .weeks-section { padding:100px 0; background:var(--bg2); position:relative; z-index:1; }
+  .weeks { display:grid; gap:18px; }
+  .week-card { background:var(--card); border:1px solid var(--border); border-radius:18px; overflow:hidden; opacity:0; transform:translateY(28px); transition:all 0.7s cubic-bezier(0.34,1.56,0.64,1); }
+  .week-card.vis { opacity:1; transform:none; }
+  .week-card:hover { border-color:rgba(232,114,106,0.18); }
+  .week-hdr { padding:20px 26px; display:flex; align-items:center; gap:16px; cursor:none; transition:background 0.3s; }
+  .week-hdr:hover { background:var(--card2); }
+  .wnum { width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;flex-shrink:0;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+  .week-hdr:hover .wnum { transform:scale(1.1) rotate(-5deg); }
+  .w1 .wnum { background:rgba(232,114,106,0.12);color:var(--rose2);border:1px solid rgba(232,114,106,0.25); }
+  .w2 .wnum { background:rgba(155,127,196,0.12);color:var(--lav2);border:1px solid rgba(155,127,196,0.25); }
+  .w3 .wnum { background:rgba(201,160,110,0.12);color:var(--gold2);border:1px solid rgba(201,160,110,0.25); }
+  .winfo { flex:1; }
+  .wname { font-size:18px; font-weight:800; margin-bottom:3px; }
+  .wdesc { font-size:13px; color:var(--muted); }
+  .wtoggle { color:var(--muted2); font-size:18px; transition:transform 0.35s; }
+  .week-card.open .wtoggle { transform:rotate(180deg); }
+  .week-body { max-height:0; overflow:hidden; transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1); padding:0 26px; }
+  .week-card.open .week-body { max-height:420px; padding-bottom:22px; }
+  .days-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:9px; padding-top:4px; }
+  .day-item { background:var(--card2); border:1px solid var(--border); border-radius:9px; padding:9px 13px; font-size:13px; color:var(--muted); display:flex; align-items:center; gap:9px; transition:all 0.25s; }
+  .day-item:hover { background:rgba(232,114,106,0.07); border-color:rgba(232,114,106,0.2); color:var(--text); transform:scale(1.02); }
+  .dnum { font-size:11px; font-weight:700; color:var(--muted2); min-width:32px; }
+
+  /* ===== OFFER STACK (HORMOZI) ===== */
+  .stack-section { padding:100px 0; background:var(--bg); position:relative; z-index:1; }
+
+  .stack-box {
+    background:var(--card); border:1px solid rgba(201,160,110,0.2); border-radius:24px;
+    padding:52px 44px; position:relative; overflow:hidden;
+    opacity:0; transform:translateY(30px); transition:all 0.8s ease;
+  }
+  .stack-box.vis { opacity:1; transform:none; }
+  .stack-box::before { content:''; position:absolute; top:0;left:0;right:0;height:3px; background:linear-gradient(90deg,var(--rose),var(--gold),var(--lav),var(--rose)); background-size:200% 100%; animation:gradFlow 3s linear infinite; }
+  @keyframes gradFlow { 0%{background-position:0% 0} 100%{background-position:200% 0} }
+
+  .stack-title { text-align:center; font-size:clamp(22px,4vw,34px); font-weight:900; margin-bottom:8px; }
+  .stack-title span { color:var(--gold2); }
+  .stack-sub { text-align:center; color:var(--muted); font-size:15px; margin-bottom:40px; }
+
+  .stack-items { display:grid; gap:12px; margin-bottom:32px; }
+  .stack-item {
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:16px 20px; background:var(--card2); border:1px solid var(--border); border-radius:12px;
+    opacity:0; transform:translateX(24px); transition:all 0.5s ease;
+  }
+  .stack-item.vis { opacity:1; transform:none; }
+  .stack-item:hover { border-color:rgba(201,160,110,0.25); }
+  .stack-item-info { display:flex; align-items:center; gap:12px; }
+  .stack-icon { font-size:22px; }
+  .stack-name { font-size:15px; font-weight:700; color:var(--text); }
+  .stack-desc-sm { font-size:13px; color:var(--muted); }
+  .stack-val { font-size:16px; font-weight:800; color:var(--muted2); text-decoration:line-through; white-space:nowrap; }
+
+  .stack-divider { border:none; border-top:1px dashed rgba(255,255,255,0.08); margin:8px 0; }
+
+  .stack-total { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; }
+  .stack-total-label { font-size:16px; color:var(--muted); }
+  .stack-total-val { font-size:22px; font-weight:900; color:var(--muted2); text-decoration:line-through; }
+
+  .stack-you-pay {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 24px; background:rgba(232,114,106,0.08); border:1px solid rgba(232,114,106,0.2); border-radius:14px; margin-top:16px;
+  }
+  .stack-you-label { font-size:17px; font-weight:800; color:var(--text); }
+  .stack-you-val { font-size:36px; font-weight:900; background:linear-gradient(135deg,var(--rose2),var(--gold2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+  .stack-saving { text-align:center; margin-top:16px; font-size:15px; color:var(--green); font-weight:700; }
+
+  /* ===== OBJECTIONS (HORMOZI) ===== */
+  .obj-section { padding:100px 0; background:var(--bg2); position:relative; z-index:1; }
+  .obj-grid { display:grid; gap:14px; }
+  .obj-card {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:24px 28px; opacity:0; transform:translateY(20px); transition:all 0.6s ease;
+  }
+  .obj-card.vis { opacity:1; transform:none; }
+  .obj-card:hover { border-color:rgba(232,114,106,0.2); background:var(--card2); }
+  .obj-q { font-size:15px; font-weight:800; color:var(--rose2); margin-bottom:10px; display:flex; align-items:center; gap:10px; }
+  .obj-a { font-size:14px; color:var(--muted); line-height:1.75; }
+  .obj-a strong { color:var(--text); }
+
+  /* ===== RISK REVERSAL (HORMOZI) ===== */
+  .risk-section { padding:80px 0; background:var(--bg); position:relative; z-index:1; }
+  .risk-box {
+    background:linear-gradient(135deg,rgba(74,222,128,0.05),rgba(74,222,128,0.02));
+    border:1px solid rgba(74,222,128,0.2); border-radius:24px; padding:48px 44px; text-align:center;
+    opacity:0; transform:scale(0.95); transition:all 0.8s ease;
+  }
+  .risk-box.vis { opacity:1; transform:none; }
+  .risk-icon { font-size:52px; margin-bottom:20px; display:block; animation:shieldPulse 3s ease-in-out infinite; }
+  @keyframes shieldPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+  .risk-title { font-size:clamp(22px,4vw,34px); font-weight:900; margin-bottom:16px; }
+  .risk-title span { color:var(--green); }
+  .risk-text { font-size:16px; color:var(--muted); line-height:1.85; max-width:540px; margin:0 auto; }
+  .risk-text strong { color:var(--text); }
+
+  /* ===== PRICING ===== */
+  .pricing-section { padding:100px 0; background:var(--bg2); position:relative; z-index:1; }
+  .pricing-card {
+    max-width:500px; margin:0 auto;
+    background:var(--card); border:1px solid rgba(232,114,106,0.22); border-radius:28px;
+    padding:52px 44px; text-align:center; position:relative; overflow:hidden;
+    opacity:0; transform:translateY(36px) scale(0.95); transition:all 0.8s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .pricing-card.vis { opacity:1; transform:none; }
+  .pricing-card::before { content:''; position:absolute; top:0;left:0;right:0;height:3px; background:linear-gradient(90deg,var(--rose),var(--gold),var(--lav),var(--rose)); background-size:200% 100%; animation:gradFlow 3s linear infinite; }
+  .pricing-card::after { content:''; position:absolute; top:-120px;left:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(232,114,106,0.06) 0%,transparent 70%);animation:glowDrift 5s ease-in-out infinite; }
+
+  .p-badge { display:inline-block; background:rgba(232,114,106,0.1); border:1px solid rgba(232,114,106,0.25); border-radius:100px; padding:6px 18px; font-size:12px; color:var(--rose2); margin-bottom:24px; letter-spacing:0.05em; position:relative;z-index:1; }
+  .p-old { font-size:20px; color:var(--muted2); text-decoration:line-through; margin-bottom:6px; position:relative;z-index:1; }
+  .p-new { font-size:88px; font-weight:900; line-height:1; background:linear-gradient(135deg,var(--rose2),var(--gold2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:6px; position:relative;z-index:1; animation:pricePulse 3s ease-in-out infinite; }
+  @keyframes pricePulse { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.15)} }
+  .p-curr { font-size:32px; vertical-align:super; }
+  .p-note { font-size:14px; color:var(--muted); margin-bottom:32px; line-height:1.6; position:relative;z-index:1; }
+
+  .p-includes { text-align:right; margin-bottom:32px; display:grid; gap:10px; position:relative;z-index:1; }
+  .pi { display:flex; align-items:center; gap:12px; font-size:15px; color:var(--text); padding:10px 16px; background:rgba(255,255,255,0.03); border-radius:10px; border:1px solid rgba(255,255,255,0.05); transition:all 0.3s; }
+  .pi:hover { background:rgba(232,114,106,0.07); border-color:rgba(232,114,106,0.15); transform:translateX(-4px); }
+  .pi-ic { color:var(--rose2); font-size:18px; }
+
+  .buy-btn {
+    display:block; width:100%;
+    background:linear-gradient(135deg,var(--rose),#b84840);
+    color:#fff; border:none; border-radius:14px; padding:20px 32px;
+    font-size:20px; font-weight:800; font-family:'Tajawal',sans-serif;
+    cursor:none; text-decoration:none; position:relative; overflow:hidden;
+    margin-bottom:16px; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s; z-index:1;
+  }
+  .buy-btn::after { content:''; position:absolute; top:-50%;left:-60%;width:40%;height:200%;background:rgba(255,255,255,0.18);transform:skewX(-20deg);animation:shine 3s ease infinite; }
+  .buy-btn:hover { transform:translateY(-4px) scale(1.02); box-shadow:0 20px 60px rgba(232,114,106,0.5); }
+
+  .guarantee { font-size:13px; color:var(--muted); display:flex; align-items:center; justify-content:center; gap:8px; position:relative;z-index:1; }
+
+  /* ===== QUOTE ===== */
+  .quote-section { padding:100px 24px; text-align:center; background:var(--bg); position:relative; z-index:1; overflow:hidden; }
+  .quote-section::before { content:'"'; position:absolute; top:-40px;left:50%;transform:translateX(-50%);font-size:320px;color:rgba(232,114,106,0.03);font-family:serif;line-height:1;pointer-events:none; }
+  .q-text { font-size:clamp(22px,4vw,36px); font-weight:700; max-width:660px; margin:0 auto 20px; line-height:1.6; opacity:0; transform:translateY(28px); transition:all 0.8s ease; }
+  .q-text.vis { opacity:1; transform:none; }
+  .q-text em { color:var(--rose2); font-style:normal; }
+  .q-author { font-size:13px; color:var(--muted2); letter-spacing:0.15em; opacity:0; transition:opacity 0.8s ease 0.3s; }
+  .q-author.vis { opacity:1; }
+
+  /* ===== FOOTER ===== */
+  footer { background:var(--bg2); border-top:1px solid var(--border); padding:36px 24px; text-align:center; color:var(--muted2); font-size:13px; line-height:2; position:relative; z-index:1; }
+
+  /* ===== FLOATING CTA ===== */
+  .float-cta {
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(100px);
+    z-index:99; background:linear-gradient(135deg,var(--rose),#b84840); color:#fff;
+    border:none; border-radius:100px; padding:14px 30px; font-size:16px; font-weight:800;
+    font-family:'Tajawal',sans-serif; cursor:none; box-shadow:0 8px 40px rgba(232,114,106,0.5);
+    white-space:nowrap; text-decoration:none; display:flex; align-items:center; gap:10px;
+    opacity:0; transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s,opacity 0.3s;
+  }
+  .float-cta.show { transform:translateX(-50%) translateY(0); opacity:1; }
+  .float-cta:hover { transform:translateX(-50%) translateY(-4px) !important; box-shadow:0 16px 60px rgba(232,114,106,0.6); }
+
+  /* ===== UTILS ===== */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
+
+  @media(max-width:600px) {
+    body { cursor:auto; }
+    .cursor,.cursor-ring { display:none; }
+    .stat-item { padding:0 24px; }
+    .truth-box,.stack-box,.risk-box,.pricing-card { padding:36px 24px; }
+    .dream-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+<div class="bg-glow"></div>
+<div id="particles"></div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-eyebrow">🕊️ رحلة 21 يوم للتحرر العاطفي</div>
+  <h1 class="hero-title">حررت نفسي</h1>
+  <div class="hero-line"></div>
+  <p class="hero-sub">
+    21 يوم لتحرري من التعلق بعد الانفصال —
+    <span>بدون ما تنسي، وبدون ما تقطعي علاقتك بذكرياتك</span>
+  </p>
+  <div class="hero-cta-wrap">
+    <a href="#pricing" class="btn-primary">ابدأي رحلة تحررك — <strong>47$</strong> 🕊️</a>
+    <span class="hero-trust">🔒 ضمان استرداد كامل 7 أيام · بدون مخاطرة</span>
+  </div>
+  <div class="scroll-hint"><span>اكتشفي أكثر</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat-item"><div class="stat-num" data-target="21">0</div><div class="stat-label">يوم رحلة كاملة</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="21">0</div><div class="stat-label">فيديو مسجل</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="21">0</div><div class="stat-label">PDF تمارين</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="7">0</div><div class="stat-label">أيام ضمان</div></div>
+  </div>
+</section>
+
+<!-- ===== PAIN ===== -->
+<section class="pain-section">
+  <div class="wrap">
+    <div class="pain-headline">تعرفي هالإحساس؟</div>
+    <div class="pain-cards">
+      <div class="pain-card"><span class="pain-icon">💔</span><div class="pain-text"><strong>قلبك تقيل</strong><p>وكأن شيئاً عم ينقطع من جوّاك — بدون سبب واضح، بدون تحذير.</p></div></div>
+      <div class="pain-card"><span class="pain-icon">📱</span><div class="pain-text"><strong>بتضلي تراقبي هاتفك</strong><p>بتفوتي على صفحته. بتعدّي ساعات الانتظار كأنك عم تعدّي أنفاسك.</p></div></div>
+      <div class="pain-card"><span class="pain-icon">😶</span><div class="pain-text"><strong>بتبكي — وأحياناً ما بتعرفي ليش</strong><p>الحزن بيجي بموجات. ولحظات بتحسي بخير — وبعدين يرجع كل شيء من جديد.</p></div></div>
+      <div class="pain-card"><span class="pain-icon">🔒</span><div class="pain-text"><strong>الخوف الأكبر؟</strong><p>إنك بتحسي إنك لو فكّيتي التعلق — معناه رح تخسريه نهائياً. فبتضلي ممسكة. وحياتك بتضل واقفة.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRUTH ===== -->
+<section class="truth-section">
+  <div class="wrap">
+    <div class="truth-box">
+      <div class="truth-tag">الحقيقة اللي ما حدا حكالك إياها</div>
+      <h2 class="truth-title">فك التعلق <span>مش</span> معناه إنك بتنسيه</h2>
+      <div class="truth-points">
+        <div class="truth-pt"><div class="chk">✓</div><span>مش معناه إنك بتقطعي العلاقة نهائياً</span></div>
+        <div class="truth-pt"><div class="chk">✓</div><span>مش معناه إنك ما بتحبيه</span></div>
+        <div class="truth-pt"><div class="chk">✓</div><span>معناه إنك بترجعي لنفسك — وأنت لسا بتحملي ذكرياتك</span></div>
+        <div class="truth-pt"><div class="chk">✓</div><span>معناه إنك بتوقفي تعيشي بحياته — وبتبدأي تعيشي بحياتك</span></div>
+        <div class="truth-pt"><div class="chk">✓</div><span>معناه إنك بتختاري نفسك — وهذا أهم قرار بحياتك</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DREAM OUTCOME (HORMOZI) ===== -->
+<section class="dream-section">
+  <div class="wrap">
+    <div class="dream-box">
+      <div class="dream-intro">بعد 21 يوم — <span>هيك رح يكون يومك</span></div>
+      <div class="dream-sub">مش وعود فارغة — هذا بالضبط شو بتحسي فيه لما تكملي الرحلة</div>
+      <div class="dream-grid">
+        <div class="dream-item"><div class="dream-check">✓</div><div class="dream-text"><strong>بتصحي الصبح</strong>وأول فكرة مش عنه — بل عن يومك ونفسك</div></div>
+        <div class="dream-item"><div class="dream-check">✓</div><div class="dream-text"><strong>بتفحصي هاتفك</strong>عشان تشوفي رسائل أصدقاءك — مش عشان تستنيه</div></div>
+        <div class="dream-item"><div class="dream-check">✓</div><div class="dream-text"><strong>بتمشي بمكانهم</strong>وبتتذكري — بدون ما تنهاري</div></div>
+        <div class="dream-item"><div class="dream-check">✓</div><div class="dream-text"><strong>بتسمعي أغنيتهم</strong>وبتبتسمي — وبتكملي مشوارك</div></div>
+        <div class="dream-item"><div class="dream-check">✓</div><div class="dream-text"><strong>بتعرفي شو بدك</strong>من حياتك — بمعزل عن أي شخص ثاني</div></div>
+        <div class="dream-item"><div class="dream-check">✓</div><div class="dream-text"><strong>بتحسي بقيمتك</strong>مش لأنه موجود — بل لأنك أنت موجودة</div></div>
+        <div class="dream-item"><div class="dream-check">✓</div><div class="dream-text"><strong>بتنامي بهدوء</strong>بدون ما يكون آخر فكرة بدماغك هو هو</div></div>
+        <div class="dream-item"><div class="dream-check">✓</div><div class="dream-text"><strong>بتضحكي</strong>وما بتحسي بذنب — لأن حياتك ما وقفت</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WEEKS ===== -->
+<section class="weeks-section">
+  <div class="wrap">
+    <div class="sec-label" style="color:var(--gold);">محتوى الكورس</div>
+    <h2 class="sec-title">رحلتك الـ 21 يوم</h2>
+    <p class="sec-sub">يوم بيوم — من الألم للتحرر. مش نظريات. شغل حقيقي وعميق.</p>
+    <div class="weeks">
+      <div class="week-card w1" onclick="toggleW(this)">
+        <div class="week-hdr"><div class="wnum">١</div><div class="winfo"><div class="wname">🌱 اعرفي نفسك</div><div class="wdesc">اليوم 1—7 · الأسبوع الأعمق</div></div><span class="wtoggle">▾</span></div>
+        <div class="week-body"><div class="days-grid">
+          <div class="day-item"><span class="dnum">يوم 1</span>شو هو التعلق؟</div>
+          <div class="day-item"><span class="dnum">يوم 2</span>شو نوع تعلقك؟</div>
+          <div class="day-item"><span class="dnum">يوم 3</span>من وين جاء؟</div>
+          <div class="day-item"><span class="dnum">يوم 4</span>ليش ما قدرتِ تتركيه؟</div>
+          <div class="day-item"><span class="dnum">يوم 5</span>الأنماط اللي بتكرريها</div>
+          <div class="day-item"><span class="dnum">يوم 6</span>شو خسرتِ بسببه؟</div>
+          <div class="day-item"><span class="dnum">يوم 7</span>قرار التحول ✨</div>
+        </div></div>
+      </div>
+      <div class="week-card w2" onclick="toggleW(this)">
+        <div class="week-hdr"><div class="wnum">٢</div><div class="winfo"><div class="wname">⚡ اكسري النمط</div><div class="wdesc">اليوم 8—14 · أدوات عملية</div></div><span class="wtoggle">▾</span></div>
+        <div class="week-body"><div class="days-grid">
+          <div class="day-item"><span class="dnum">يوم 8</span>حددي المحفزات</div>
+          <div class="day-item"><span class="dnum">يوم 9</span>أوقفي أفكار الانتظار</div>
+          <div class="day-item"><span class="dnum">يوم 10</span>فكي الارتباط العاطفي</div>
+          <div class="day-item"><span class="dnum">يوم 11</span>الحدود الشخصية</div>
+          <div class="day-item"><span class="dnum">يوم 12</span>علاقتك مع نفسك</div>
+          <div class="day-item"><span class="dnum">يوم 13</span>الغضب والحزن</div>
+          <div class="day-item"><span class="dnum">يوم 14</span>منتصف الرحلة 🎯</div>
+        </div></div>
+      </div>
+      <div class="week-card w3" onclick="toggleW(this)">
+        <div class="week-hdr"><div class="wnum">٣</div><div class="winfo"><div class="wname">🌟 ابني نفسك</div><div class="wdesc">اليوم 15—21 · حياتك الجديدة</div></div><span class="wtoggle">▾</span></div>
+        <div class="week-body"><div class="days-grid">
+          <div class="day-item"><span class="dnum">يوم 15</span>شو بدك من حياتك؟</div>
+          <div class="day-item"><span class="dnum">يوم 16</span>هويتك الجديدة</div>
+          <div class="day-item"><span class="dnum">يوم 17</span>علاقاتك المستقبلية</div>
+          <div class="day-item"><span class="dnum">يوم 18</span>الثقة بالنفس</div>
+          <div class="day-item"><span class="dnum">يوم 19</span>الحب الحقيقي</div>
+          <div class="day-item"><span class="dnum">يوم 20</span>رسالة لنفسك 💌</div>
+          <div class="day-item"><span class="dnum">يوم 21</span>أنتِ الآن حرة 🕊️</div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OFFER STACK (HORMOZI) ===== -->
+<section class="stack-section">
+  <div class="wrap">
+    <div class="sec-label" style="color:var(--gold);">The Offer</div>
+    <h2 class="sec-title">شو بتحصلي عليه <span style="color:var(--gold2);">فعلاً</span></h2>
+    <p class="sec-sub">لما تحسبي القيمة الحقيقية — رح تفهمي ليش 47$ هو سعر مجنون</p>
+    <div class="stack-box">
+      <div class="stack-title">القيمة الكاملة مقابل <span>ما بتدفعيه</span></div>
+      <div class="stack-sub">كل عنصر له قيمة حقيقية — مجتمعين بيساوون أكثر بكتير</div>
+      <div class="stack-items">
+        <div class="stack-item"><div class="stack-item-info"><span class="stack-icon">🎬</span><div><div class="stack-name">21 فيديو مسجل</div><div class="stack-desc-sm">فيديو يومي عميق ومباشر</div></div></div><div class="stack-val">197$</div></div>
+        <div class="stack-item"><div class="stack-item-info"><span class="stack-icon">📄</span><div><div class="stack-name">21 PDF تمارين عميقة</div><div class="stack-desc-sm">تمارين يومية تغير طريقة تفكيرك</div></div></div><div class="stack-val">97$</div></div>
+        <div class="stack-item"><div class="stack-item-info"><span class="stack-icon">♾️</span><div><div class="stack-name">وصول مدى الحياة</div><div class="stack-desc-sm">ارجعي إليه متى احتجتيه</div></div></div><div class="stack-val">47$</div></div>
+        <div class="stack-item"><div class="stack-item-info"><span class="stack-icon">🛡️</span><div><div class="stack-name">ضمان استرداد 7 أيام</div><div class="stack-desc-sm">بدون مخاطرة — الثقة كاملة</div></div></div><div class="stack-val">Priceless</div></div>
+      </div>
+      <hr class="stack-divider">
+      <div class="stack-total"><span class="stack-total-label">القيمة الإجمالية</span><span class="stack-total-val">341$+</span></div>
+      <div class="stack-you-pay"><span class="stack-you-label">انتِ بتدفعي اليوم</span><span class="stack-you-val"><span style="font-size:20px;vertical-align:super;">$</span>47</span></div>
+      <div class="stack-saving">💚 بتوفري أكثر من 294$ — توفير 86%</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OBJECTIONS (HORMOZI) ===== -->
+<section class="obj-section">
+  <div class="wrap">
+    <div class="sec-label" style="color:var(--rose);">أسئلة شايفاها بدماغك هلق</div>
+    <h2 class="sec-title">الأسئلة اللي ما بتسأليها</h2>
+    <p class="sec-sub">بعرف شو عم تفكري — خليني أجاوبك قبل ما تسأل</p>
+    <div class="obj-grid">
+      <div class="obj-card">
+        <div class="obj-q">❓ "أنا ما كملت كورسات قبل — رح يصير نفس الشيء"</div>
+        <div class="obj-a">هذا الكورس <strong>15-20 دقيقة يومياً بس.</strong> مش ساعات. مش محاضرات طويلة. فيديو قصير وتمرين — وخلصتِ. حتى بأصعب يوم — بتقدري.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-q">❓ "مش متأكدة إذا وضعي يستاهل"</div>
+        <div class="obj-a">إذا بتفحصي هاتفك أكثر من 10 مرات يومياً تنتظري رسالته — <strong>هذا الكورس لك.</strong> إذا بتفكري فيه قبل ما تنامي — هذا الكورس لك.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-q">❓ "47$ كتير هلق"</div>
+        <div class="obj-a">47$ = قهوة يومية لأسبوعين. وأنتِ بدك تشتري <strong>21 يوم من الشغل العميق</strong> اللي ممكن يغير حياتك كاملاً. قارني بقيمة ما بتحصلي عليه — مش بالرقم.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-q">❓ "بخاف أحاول وما ينجح معي"</div>
+        <div class="obj-a">ولهيك في ضمان 7 أيام كامل. <strong>طبّقي الكورس — إذا ما حسيتِ بأي فرق</strong> — رح أرد لك المبلغ كاملاً. المخاطرة علي أنا — مش عليك.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-q">❓ "إذا تعلمت فك التعلق — معناه بنسى كل شيء؟"</div>
+        <div class="obj-a">لأ. فك التعلق مش نسيان. <strong>بتحتفظي بالذكريات — بس بتوقفي تعيشي فيها.</strong> بتحبي — بس بحدود تحميك. بتتذكري — بس بدون ألم يشل حياتك.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RISK REVERSAL (HORMOZI) ===== -->
+<section class="risk-section">
+  <div class="wrap">
+    <div class="risk-box">
+      <span class="risk-icon">🛡️</span>
+      <h3 class="risk-title">ضمان <span>"جربي بدون مخاطرة"</span></h3>
+      <p class="risk-text">
+        طبّقي الكورس كامل — يوم بيوم — لمدة 7 أيام.<br><br>
+        إذا ما حسيتِ <strong>بأي فرق واحد</strong> — رح أرد لك المبلغ كاملاً.<br>
+        بدون أسئلة. بدون شروط. بدون تعقيد.<br><br>
+        <strong>المخاطرة علي أنا — مش عليك.</strong><br>
+        أنتِ بتجربي — وإذا ما عجبك — بترجعي فلوسك كاملة.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="pricing-section" id="pricing">
+  <div class="wrap">
+    <div class="sec-label" style="color:var(--gold);">السعر</div>
+    <h2 class="sec-title">ابدأي رحلتك اليوم</h2>
+    <p class="sec-sub">السعر رح يرتفع بعد أول 10 مبيعات — هذا سعر الإطلاق فقط</p>
+    <div class="pricing-card">
+      <div class="p-badge">🕊️ نسخة الإطلاق — سعر خاص</div>
+      <div class="p-old">341$+ قيمة حقيقية</div>
+      <div class="p-new"><span class="p-curr">$</span>47</div>
+      <div class="p-note">دفعة واحدة · وصول مدى الحياة · بدون اشتراك شهري</div>
+      <div class="p-includes">
+        <div class="pi"><span class="pi-ic">🎬</span><span>21 فيديو مسجل (فيديو لكل يوم)</span></div>
+        <div class="pi"><span class="pi-ic">📄</span><span>21 PDF تمارين عميقة</span></div>
+        <div class="pi"><span class="pi-ic">♾️</span><span>وصول مدى الحياة بدون انتهاء</span></div>
+        <div class="pi"><span class="pi-ic">🛡️</span><span>ضمان استرداد كامل 7 أيام</span></div>
+      </div>
+      <a href="#" class="buy-btn">ابدأي رحلة تحررك الآن 🕊️</a>
+      <div class="guarantee">🔒 دفع آمن · ضمان استرداد كامل خلال 7 أيام</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CLOSING QUOTE ===== -->
+<section class="quote-section">
+  <p class="q-text">"حياتك <em>ما وقفت</em> — هي بس تستنى تعودي إليها."</p>
+  <div class="q-author">— حررت نفسي</div>
+</section>
+
+<footer>
+  <div>كورس "حررت نفسي" · 21 يوم لتحرري من التعلق بعد الانفصال</div>
+  <div style="color:var(--muted2);margin-top:6px;">جميع الحقوق محفوظة · سياسة الاسترداد: 7 أيام ضمان كامل</div>
+</footer>
+
+<a href="#pricing" class="float-cta" id="floatCta">ابدأي الآن — 47$ 🕊️</a>
+
+<script>
+// CURSOR
+const cur = document.getElementById('cur');
+const ring = document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx-5+'px'; cur.style.top=my-5+'px';
+});
+(function animR(){
+  rx+=(mx-rx-16)*0.12; ry+=(my-ry-16)*0.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animR);
+})();
+document.querySelectorAll('a,button,.week-card,.pain-card,.obj-card,.get-card,.stack-item,.dream-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ cur.style.transform='scale(2.5)'; ring.style.transform='scale(1.5)'; ring.style.borderColor='rgba(232,114,106,0.6)'; });
+  el.addEventListener('mouseleave',()=>{ cur.style.transform='scale(1)'; ring.style.transform='scale(1)'; ring.style.borderColor='rgba(232,114,106,0.4)'; });
+});
+
+// PARTICLES
+const pc = document.getElementById('particles');
+const cols = ['rgba(232,114,106,0.35)','rgba(155,127,196,0.25)','rgba(201,160,110,0.3)','rgba(244,160,154,0.3)'];
+setInterval(()=>{
+  const p=document.createElement('div');
+  p.className='particle';
+  const s=Math.random()*4+2;
+  p.style.cssText=`width:${s}px;height:${s}px;background:${cols[Math.floor(Math.random()*cols.length)]};left:${Math.random()*100}%;animation-duration:${Math.random()*14+10}s;animation-delay:${Math.random()*4}s;`;
+  pc.appendChild(p);
+  setTimeout(()=>p.remove(),22000);
+},900);
+
+// INTERSECTION OBSERVER
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const d=parseInt(e.target.dataset.delay||0);
+      setTimeout(()=>e.target.classList.add('vis'),d);
+    }
+  });
+},{threshold:0.1});
+
+document.querySelectorAll('.pain-card').forEach((el,i)=>{el.dataset.delay=i*110;obs.observe(el);});
+document.querySelectorAll('.truth-pt').forEach((el,i)=>{el.dataset.delay=i*90;obs.observe(el);});
+document.querySelectorAll('.week-card').forEach((el,i)=>{el.dataset.delay=i*140;obs.observe(el);});
+document.querySelectorAll('.dream-item').forEach((el,i)=>{el.dataset.delay=i*80;obs.observe(el);});
+document.querySelectorAll('.stack-item').forEach((el,i)=>{el.dataset.delay=i*100;obs.observe(el);});
+document.querySelectorAll('.obj-card').forEach((el,i)=>{el.dataset.delay=i*100;obs.observe(el);});
+document.querySelectorAll('.truth-box,.dream-box,.stack-box,.risk-box,.pricing-card,.q-text,.q-author').forEach(el=>obs.observe(el));
+
+// WEEK ACCORDION
+function toggleW(card){
+  const isOpen=card.classList.contains('open');
+  document.querySelectorAll('.week-card').forEach(c=>c.classList.remove('open'));
+  if(!isOpen) card.classList.add('open');
+}
+setTimeout(()=>document.querySelector('.week-card').classList.add('open'),1000);
+
+// FLOATING CTA
+const floatCta=document.getElementById('floatCta');
+const pricingEl=document.getElementById('pricing');
+window.addEventListener('scroll',()=>{
+  const scrolled=window.scrollY>500;
+  const pTop=pricingEl.getBoundingClientRect().top;
+  const nearP=pTop<window.innerHeight&&pTop>-300;
+  floatCta.classList.toggle('show',scrolled&&!nearP);
+});
+
+// COUNTERS
+const cObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target, target=parseInt(el.dataset.target);
+      let v=0; const step=target/60;
+      const t=setInterval(()=>{ v+=step; if(v>=target){el.textContent=target;clearInterval(t);}else{el.textContent=Math.floor(v);} },16);
+      cObs.unobserve(el);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('.stat-num').forEach(el=>cObs.observe(el));
+</script>
+</body>
+</html>
